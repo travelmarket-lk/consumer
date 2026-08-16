@@ -1,4 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Consumer Platform
+
+Production-oriented Next.js foundation using the App Router, TypeScript, MySQL, and an external REST API integration layer.
+
+## Structure
+
+```text
+src/app/                 Pages, layouts, and HTTP Route Handlers
+src/modules/             Domain modules (service + repository + types)
+src/lib/config/          Validated server configuration
+src/lib/db/              MySQL pool and connection health
+src/lib/http/            Consistent API responses and errors
+src/lib/integrations/    External REST API client
+db/schema.sql            Snapshot of the existing database schema
+```
+
+## Local setup
+
+1. Copy `.env.example` to `.env.local` and set the MySQL and external API values.
+2. The existing database schema is documented in `db/schema.sql`; do not run it against the production database.
+3. Install and run the app:
+
+```bash
+npm install
+npm run dev
+```
+
+The API is available under `/api/v1`. `GET /api/health` is a lightweight liveness check, while `GET /api/ready` validates the MySQL connection.
+
+## API examples
+
+```bash
+curl http://localhost:3000/api/v1/users
+curl -X POST http://localhost:3000/api/v1/users \
+  -H 'content-type: application/json' \
+  -d '{"username":"ada","email":"ada@example.com","firstName":"Ada","lastName":"Lovelace"}'
+curl http://localhost:3000/api/v1/integrations/example
+```
+
+The external integration is intentionally configured through environment variables so credentials remain server-only. Replace the example path in `src/app/api/v1/integrations/example/route.ts` with the upstream resource your product needs.
+
+The users API maps the existing `users` table and intentionally excludes `password` and `otp` from responses. The schema snapshot includes the existing administration and API-permission tables and their foreign-key relationships.
 
 ## Getting Started
 
@@ -17,8 +58,6 @@ bun dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
 ## Learn More
 
