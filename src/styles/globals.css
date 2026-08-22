@@ -1,12 +1,753 @@
 @import "tailwindcss";
 
-:root { --background: #f8fafc; --foreground: #171717; }
+/* =========================================================
+   TAILWIND THEME TOKENS
+   ========================================================= */
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: Arial, Helvetica, sans-serif;
-  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+@theme {
+  /* -------------------------------------------------------
+     BRAND / PRIMARY
+     ------------------------------------------------------- */
+
+  --color-primary: var(--theme-primary);
+  --color-primary-hover: var(--theme-primary-hover);
+  --color-primary-active: var(--theme-primary-active);
+  --color-primary-soft: var(--theme-primary-soft);
+  --color-primary-foreground: var(--theme-primary-foreground);
+
+
+  /* -------------------------------------------------------
+     SECONDARY
+     ------------------------------------------------------- */
+
+  --color-secondary: var(--theme-secondary);
+  --color-secondary-hover: var(--theme-secondary-hover);
+  --color-secondary-soft: var(--theme-secondary-soft);
+  --color-secondary-foreground: var(--theme-secondary-foreground);
+
+
+  /* -------------------------------------------------------
+     PAGE / SURFACE
+     ------------------------------------------------------- */
+
+  --color-background: var(--theme-background);
+  --color-surface: var(--theme-surface);
+  --color-surface-hover: var(--theme-surface-hover);
+  --color-surface-active: var(--theme-surface-active);
+
+  --color-card: var(--theme-card);
+  --color-card-hover: var(--theme-card-hover);
+
+  --color-card-foreground: var(--theme-card-foreground);
+
+
+  /* -------------------------------------------------------
+     TEXT
+     ------------------------------------------------------- */
+
+  --color-foreground: var(--theme-foreground);
+
+  --color-muted-foreground: var(--theme-muted-foreground);
+
+  --color-subtle-foreground: var(--theme-subtle-foreground);
+
+  --color-disabled-foreground: var(--theme-disabled-foreground);
+
+  --color-inverse: var(--theme-inverse);
+
+  --color-inverse-foreground: var(--theme-inverse-foreground);
+
+
+  /* -------------------------------------------------------
+     BORDER
+     ------------------------------------------------------- */
+
+  --color-border: var(--theme-border);
+
+  --color-border-subtle: var(--theme-border-subtle);
+
+  --color-border-strong: var(--theme-border-strong);
+
+  --color-border-focus: var(--theme-border-focus);
+
+
+  /* -------------------------------------------------------
+     SUCCESS
+     ------------------------------------------------------- */
+
+  --color-success: var(--theme-success);
+
+  --color-success-hover: var(--theme-success-hover);
+
+  --color-success-soft: var(--theme-success-soft);
+
+  --color-success-foreground: var(--theme-success-foreground);
+
+
+  /* -------------------------------------------------------
+     WARNING
+     ------------------------------------------------------- */
+
+  --color-warning: var(--theme-warning);
+
+  --color-warning-hover: var(--theme-warning-hover);
+
+  --color-warning-soft: var(--theme-warning-soft);
+
+  --color-warning-foreground: var(--theme-warning-foreground);
+
+
+  /* -------------------------------------------------------
+     DANGER / ERROR
+     ------------------------------------------------------- */
+
+  --color-danger: var(--theme-danger);
+
+  --color-danger-hover: var(--theme-danger-hover);
+
+  --color-danger-soft: var(--theme-danger-soft);
+
+  --color-danger-foreground: var(--theme-danger-foreground);
+
+
+  /* -------------------------------------------------------
+     INFO
+     ------------------------------------------------------- */
+
+  --color-info: var(--theme-info);
+
+  --color-info-hover: var(--theme-info-hover);
+
+  --color-info-soft: var(--theme-info-soft);
+
+  --color-info-foreground: var(--theme-info-foreground);
+
+
+  /* -------------------------------------------------------
+     RATING / REVIEW
+     ------------------------------------------------------- */
+
+  --color-rating: var(--theme-rating);
+
+  --color-rating-soft: var(--theme-rating-soft);
+
+
+  /* -------------------------------------------------------
+     PRICE / OFFER
+     ------------------------------------------------------- */
+
+  --color-price: var(--theme-price);
+
+  --color-price-old: var(--theme-price-old);
+
+  --color-discount: var(--theme-discount);
+
+  --color-discount-soft: var(--theme-discount-soft);
+
+
+  /* -------------------------------------------------------
+     BOOKING
+     ------------------------------------------------------- */
+
+  --color-booking: var(--theme-booking);
+
+  --color-booking-hover: var(--theme-booking-hover);
+
+  --color-booking-soft: var(--theme-booking-soft);
+
+  --color-booking-foreground: var(--theme-booking-foreground);
+
+
+  /* -------------------------------------------------------
+     INPUT / FORM
+     ------------------------------------------------------- */
+
+  --color-input: var(--theme-input);
+
+  --color-input-background: var(--theme-input-background);
+
+  --color-input-border: var(--theme-input-border);
+
+  --color-input-focus: var(--theme-input-focus);
+
+  --color-input-placeholder: var(--theme-input-placeholder);
+
+  --color-input-foreground: var(--theme-input-foreground);
+
+
+  /* -------------------------------------------------------
+     OVERLAY / MODAL
+     ------------------------------------------------------- */
+
+  --color-overlay: var(--theme-overlay);
+
+  --color-overlay-foreground: var(--theme-overlay-foreground);
+
+
+  /* -------------------------------------------------------
+     INVERSE / DARK SECTIONS
+     ------------------------------------------------------- */
+
+  --color-inverse-surface: var(--theme-inverse-surface);
+
+  --color-inverse-surface-hover: var(--theme-inverse-surface-hover);
+
+  --color-inverse-border: var(--theme-inverse-border);
+
+  --color-inverse-muted: var(--theme-inverse-muted);
+
+
+  /* -------------------------------------------------------
+     FOCUS
+     ------------------------------------------------------- */
+
+  --color-focus-ring: var(--theme-focus-ring);
+
+
+  /* -------------------------------------------------------
+     RADIUS
+     ------------------------------------------------------- */
+
+  --radius-sm: var(--theme-radius-sm);
+  --radius-md: var(--theme-radius-md);
+  --radius-lg: var(--theme-radius-lg);
+  --radius-xl: var(--theme-radius-xl);
+  --radius-2xl: var(--theme-radius-2xl);
+  --radius-3xl: var(--theme-radius-3xl);
+
+
+  /* -------------------------------------------------------
+     SHADOWS
+     ------------------------------------------------------- */
+
+  --shadow-card: var(--theme-shadow-card);
+  --shadow-card-hover: var(--theme-shadow-card-hover);
+  --shadow-modal: var(--theme-shadow-modal);
+  --shadow-dropdown: var(--theme-shadow-dropdown);
 }
 
-body { background: var(--background); color: var(--foreground); font-family: Arial, Helvetica, sans-serif; }
+
+/* =========================================================
+   DEFAULT LIGHT THEME
+   ========================================================= */
+
+:root {
+
+  /* -------------------------------------------------------
+     BRAND
+     ------------------------------------------------------- */
+
+  --theme-primary: red;
+  --theme-primary-hover: #0e7490;
+  --theme-primary-active: #155e75;
+  --theme-primary-soft: #ecfeff;
+  --theme-primary-foreground: #ffffff;
+
+
+  /* -------------------------------------------------------
+     SECONDARY
+     ------------------------------------------------------- */
+
+  --theme-secondary: #64748b;
+  --theme-secondary-hover: #475569;
+  --theme-secondary-soft: #f1f5f9;
+  --theme-secondary-foreground: #ffffff;
+
+
+  /* -------------------------------------------------------
+     PAGE / SURFACE
+     ------------------------------------------------------- */
+
+  --theme-background: #f8fafc;
+
+  --theme-surface: #f1f5f9;
+  --theme-surface-hover: #e2e8f0;
+  --theme-surface-active: #cbd5e1;
+
+  --theme-card: #ffffff;
+  --theme-card-hover: #ffffff;
+
+  --theme-card-foreground: #0f172a;
+
+
+  /* -------------------------------------------------------
+     TEXT
+     ------------------------------------------------------- */
+
+  --theme-foreground: #0f172a;
+
+  --theme-muted-foreground: #64748b;
+
+  --theme-subtle-foreground: #94a3b8;
+
+  --theme-disabled-foreground: #cbd5e1;
+
+  --theme-inverse: #ffffff;
+
+  --theme-inverse-foreground: #0f172a;
+
+
+  /* -------------------------------------------------------
+     BORDER
+     ------------------------------------------------------- */
+
+  --theme-border: #e2e8f0;
+
+  --theme-border-subtle: #f1f5f9;
+
+  --theme-border-strong: #cbd5e1;
+
+  --theme-border-focus: #0891b2;
+
+
+  /* -------------------------------------------------------
+     SUCCESS
+     ------------------------------------------------------- */
+
+  --theme-success: #059669;
+  --theme-success-hover: #047857;
+  --theme-success-soft: #ecfdf5;
+  --theme-success-foreground: #ffffff;
+
+
+  /* -------------------------------------------------------
+     WARNING
+     ------------------------------------------------------- */
+
+  --theme-warning: #d97706;
+  --theme-warning-hover: #b45309;
+  --theme-warning-soft: #fffbeb;
+  --theme-warning-foreground: #ffffff;
+
+
+  /* -------------------------------------------------------
+     DANGER
+     ------------------------------------------------------- */
+
+  --theme-danger: #e11d48;
+  --theme-danger-hover: #be123c;
+  --theme-danger-soft: #fff1f2;
+  --theme-danger-foreground: #ffffff;
+
+
+  /* -------------------------------------------------------
+     INFO
+     ------------------------------------------------------- */
+
+  --theme-info: #2563eb;
+  --theme-info-hover: #1d4ed8;
+  --theme-info-soft: #eff6ff;
+  --theme-info-foreground: #ffffff;
+
+
+  /* -------------------------------------------------------
+     RATING
+     ------------------------------------------------------- */
+
+  --theme-rating: #f59e0b;
+  --theme-rating-soft: #fffbeb;
+
+
+  /* -------------------------------------------------------
+     PRICE / OFFER
+     ------------------------------------------------------- */
+
+  --theme-price: #0f172a;
+  --theme-price-old: #94a3b8;
+
+  --theme-discount: #e11d48;
+  --theme-discount-soft: #fff1f2;
+
+
+  /* -------------------------------------------------------
+     BOOKING
+     ------------------------------------------------------- */
+
+  --theme-booking: #0891b2;
+  --theme-booking-hover: #0e7490;
+  --theme-booking-soft: #ecfeff;
+  --theme-booking-foreground: #ffffff;
+
+
+  /* -------------------------------------------------------
+     INPUT
+     ------------------------------------------------------- */
+
+  --theme-input: #e2e8f0;
+
+  --theme-input-background: #ffffff;
+
+  --theme-input-border: #cbd5e1;
+
+  --theme-input-focus: #0891b2;
+
+  --theme-input-placeholder: #94a3b8;
+
+  --theme-input-foreground: #0f172a;
+
+
+  /* -------------------------------------------------------
+     OVERLAY
+     ------------------------------------------------------- */
+
+  --theme-overlay: rgb(15 23 42 / 0.60);
+
+  --theme-overlay-foreground: #ffffff;
+
+
+  /* -------------------------------------------------------
+     INVERSE / DARK SECTIONS
+     ------------------------------------------------------- */
+
+  --theme-inverse-surface: #0f172a;
+
+  --theme-inverse-surface-hover: #1e293b;
+
+  --theme-inverse-border: #334155;
+
+  --theme-inverse-muted: #94a3b8;
+
+
+  /* -------------------------------------------------------
+     FOCUS
+     ------------------------------------------------------- */
+
+  --theme-focus-ring: #0891b2;
+
+
+  /* -------------------------------------------------------
+     RADIUS
+     ------------------------------------------------------- */
+
+  --theme-radius-sm: 0.375rem;
+  --theme-radius-md: 0.5rem;
+  --theme-radius-lg: 0.75rem;
+  --theme-radius-xl: 1rem;
+  --theme-radius-2xl: 1rem;
+  --theme-radius-3xl: 1.5rem;
+
+
+  /* -------------------------------------------------------
+     SHADOWS
+     ------------------------------------------------------- */
+
+  --theme-shadow-card:
+          0 1px 3px 0 rgb(15 23 42 / 0.08),
+          0 1px 2px -1px rgb(15 23 42 / 0.08);
+
+  --theme-shadow-card-hover:
+          0 10px 25px -5px rgb(15 23 42 / 0.10),
+          0 8px 10px -6px rgb(15 23 42 / 0.08);
+
+  --theme-shadow-modal:
+          0 25px 50px -12px rgb(15 23 42 / 0.25);
+
+  --theme-shadow-dropdown:
+          0 10px 25px -5px rgb(15 23 42 / 0.12);
+}
+
+
+/* =========================================================
+   DARK THEME
+   ========================================================= */
+
+.dark {
+
+  --theme-primary: #22d3ee;
+  --theme-primary-hover: #67e8f9;
+  --theme-primary-active: #a5f3fc;
+  --theme-primary-soft: #083344;
+  --theme-primary-foreground: #083344;
+
+
+  --theme-secondary: #94a3b8;
+  --theme-secondary-hover: #cbd5e1;
+  --theme-secondary-soft: #334155;
+  --theme-secondary-foreground: #0f172a;
+
+
+  --theme-background: #020617;
+
+  --theme-surface: #0f172a;
+  --theme-surface-hover: #1e293b;
+  --theme-surface-active: #334155;
+
+  --theme-card: #0f172a;
+  --theme-card-hover: #1e293b;
+
+  --theme-card-foreground: #f8fafc;
+
+
+  --theme-foreground: #f8fafc;
+
+  --theme-muted-foreground: #94a3b8;
+
+  --theme-subtle-foreground: #64748b;
+
+  --theme-disabled-foreground: #475569;
+
+  --theme-inverse: #0f172a;
+
+  --theme-inverse-foreground: #f8fafc;
+
+
+  --theme-border: #1e293b;
+
+  --theme-border-subtle: #172033;
+
+  --theme-border-strong: #334155;
+
+  --theme-border-focus: #22d3ee;
+
+
+  --theme-success: #34d399;
+  --theme-success-hover: #6ee7b7;
+  --theme-success-soft: #052e16;
+  --theme-success-foreground: #022c22;
+
+
+  --theme-warning: #fbbf24;
+  --theme-warning-hover: #fcd34d;
+  --theme-warning-soft: #451a03;
+  --theme-warning-foreground: #451a03;
+
+
+  --theme-danger: #fb7185;
+  --theme-danger-hover: #fda4af;
+  --theme-danger-soft: #4c0519;
+  --theme-danger-foreground: #4c0519;
+
+
+  --theme-info: #60a5fa;
+  --theme-info-hover: #93c5fd;
+  --theme-info-soft: #172554;
+  --theme-info-foreground: #172554;
+
+
+  --theme-rating: #fbbf24;
+  --theme-rating-soft: #451a03;
+
+
+  --theme-price: #f8fafc;
+  --theme-price-old: #64748b;
+
+  --theme-discount: #fb7185;
+  --theme-discount-soft: #4c0519;
+
+
+  --theme-booking: #22d3ee;
+  --theme-booking-hover: #67e8f9;
+  --theme-booking-soft: #083344;
+  --theme-booking-foreground: #083344;
+
+
+  --theme-input: #334155;
+
+  --theme-input-background: #0f172a;
+
+  --theme-input-border: #475569;
+
+  --theme-input-focus: #22d3ee;
+
+  --theme-input-placeholder: #64748b;
+
+  --theme-input-foreground: #f8fafc;
+
+
+  --theme-overlay: rgb(0 0 0 / 0.70);
+
+  --theme-overlay-foreground: #ffffff;
+
+
+  --theme-inverse-surface: #f8fafc;
+
+  --theme-inverse-surface-hover: #e2e8f0;
+
+  --theme-inverse-border: #cbd5e1;
+
+  --theme-inverse-muted: #64748b;
+
+
+  --theme-focus-ring: #22d3ee;
+}
+
+
+/* =========================================================
+   BASE APPLICATION STYLES
+   ========================================================= */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--theme-background);
+  color: var(--theme-foreground);
+
+  --color-slate-50: var(--color-background);
+  --color-slate-100: var(--color-border-subtle);
+  --color-slate-200: var(--color-border);
+  --color-slate-300: var(--color-border-strong);
+  --color-slate-400: var(--color-subtle-foreground);
+  --color-slate-500: var(--color-muted-foreground);
+  --color-slate-600: var(--color-muted-foreground);
+  --color-slate-700: var(--color-inverse-border);
+  --color-slate-800: var(--color-inverse-surface-hover);
+  --color-slate-900: var(--color-inverse-surface);
+  --color-slate-950: var(--color-inverse-surface);
+
+  --color-cyan-50: var(--color-primary-soft);
+  --color-cyan-100: var(--color-primary-soft);
+  --color-cyan-400: var(--color-primary);
+  --color-cyan-500: var(--color-primary);
+  --color-cyan-600: var(--color-primary);
+  --color-cyan-700: var(--color-primary-hover);
+  --color-cyan-800: var(--color-primary-active);
+
+  --color-emerald-50: var(--color-success-soft);
+  --color-emerald-200: var(--color-success);
+  --color-emerald-300: var(--color-success);
+  --color-emerald-500: var(--color-success);
+  --color-emerald-600: var(--color-success);
+  --color-emerald-700: var(--color-success-hover);
+  --color-emerald-900: var(--color-success);
+  --color-emerald-950: var(--color-success);
+
+  --color-rose-50: var(--color-danger-soft);
+  --color-rose-100: var(--color-danger-soft);
+  --color-rose-200: var(--color-danger);
+  --color-rose-500: var(--color-danger);
+  --color-rose-600: var(--color-danger);
+  --color-rose-700: var(--color-danger-hover);
+
+  --color-amber-50: var(--color-rating-soft);
+  --color-amber-200: var(--color-rating-soft);
+  --color-amber-400: var(--color-rating);
+  --color-amber-600: var(--color-warning);
+}
+
+
+/* =========================================================
+   HOTEL VIEW THEME BRIDGE
+   =========================================================
+
+   The hotel detail components use Tailwind's default palette names.
+   Keep that page scoped while making those utilities resolve through
+   the application's semantic theme tokens above.
+*/
+
+
+/* Better text rendering */
+
+* {
+  box-sizing: border-box;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+
+/* =========================================================
+   FORM ELEMENTS
+   ========================================================= */
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--theme-input-placeholder);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--theme-focus-ring);
+  outline-offset: 2px;
+}
+
+
+/* =========================================================
+   SELECTION
+   ========================================================= */
+
+::selection {
+  background-color: var(--theme-primary);
+  color: var(--theme-primary-foreground);
+}
+
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+.scrollbar-none {
+  scrollbar-width: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+
+/* =========================================================
+   HOTEL / BOOKING UTILITY CLASSES
+   ========================================================= */
+
+.hotel-card {
+  background-color: var(--theme-card);
+  color: var(--theme-card-foreground);
+  border: 1px solid var(--theme-border);
+  border-radius: var(--theme-radius-2xl);
+  box-shadow: var(--theme-shadow-card);
+}
+
+.hotel-card:hover {
+  box-shadow: var(--theme-shadow-card-hover);
+}
+
+
+.booking-card {
+  background-color: var(--theme-card);
+  border: 1px solid var(--theme-border);
+  border-radius: var(--theme-radius-2xl);
+}
+
+
+.booking-primary {
+  background-color: var(--theme-booking);
+  color: var(--theme-booking-foreground);
+}
+
+.booking-primary:hover {
+  background-color: var(--theme-booking-hover);
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
