@@ -1,0 +1,472 @@
+/* =====================================
+   NAVBAR
+===================================== */
+
+.navbar {
+  width: 100%;
+  height: 76px;
+
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+
+  background:
+    rgba(255, 255, 255, 0.94);
+
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+
+  border-bottom:
+    1px solid rgba(52, 160, 81, 0.10);
+
+  box-shadow:
+    0 5px 25px rgba(23, 75, 39, 0.04);
+}
+
+
+/* =====================================
+   CONTAINER
+===================================== */
+
+.navbar-container {
+  width: 100%;
+  max-width: 1400px;
+  height: 100%;
+
+  margin: 0 auto;
+
+  padding: 0 45px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+/* =====================================
+   LOGO
+===================================== */
+
+.navbar-logo {
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+
+  text-decoration: none;
+}
+
+
+.navbar-logo-icon {
+  width: 39px;
+  height: 39px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 11px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #36ad59,
+      #218b42
+    );
+
+  color: #ffffff;
+
+  box-shadow:
+    0 7px 18px rgba(42, 151, 72, 0.18);
+}
+
+
+.navbar-logo-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+
+.navbar-brand {
+  display: flex;
+
+  align-items: center;
+
+  gap: 3px;
+
+  color: #183d24;
+
+  font-size: 20px;
+
+  letter-spacing: -0.5px;
+}
+
+
+.navbar-brand span {
+  font-weight: 500;
+}
+
+
+.navbar-brand strong {
+  color: #2b9d4d;
+
+  font-weight: 750;
+}
+
+
+/* =====================================
+   NAVIGATION LINKS
+===================================== */
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+
+  gap: 34px;
+}
+
+
+.navbar-links > a {
+  position: relative;
+
+  padding: 28px 0;
+
+  color: #52665a;
+
+  font-size: 13px;
+
+  font-weight: 550;
+
+  text-decoration: none;
+
+  transition:
+    color 0.2s ease;
+}
+
+
+.navbar-links > a:hover {
+  color: #29994a;
+}
+
+
+/* UNDERLINE ANIMATION */
+
+.navbar-links > a::after {
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+  bottom: 20px;
+
+  width: 0;
+  height: 2px;
+
+  border-radius: 5px;
+
+  background: #32a554;
+
+  transform: translateX(-50%);
+
+  transition:
+    width 0.22s ease;
+}
+
+
+.navbar-links > a:hover::after {
+  width: 20px;
+}
+
+
+/* =====================================
+   RIGHT ACTIONS
+===================================== */
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+}
+
+
+.nav-login {
+  min-width: 75px;
+  height: 39px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 0 14px;
+
+  color: #376044;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  text-decoration: none;
+
+  border-radius: 9px;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+
+.nav-login:hover {
+  color: #258d44;
+
+  background:
+    rgba(53, 167, 84, 0.07);
+}
+
+
+.nav-register {
+  min-width: 96px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0 18px;
+
+  border-radius: 10px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #39ad5b,
+      #259448
+    );
+
+  color: white;
+
+  font-size: 12px;
+
+  font-weight: 650;
+
+  text-decoration: none;
+
+  box-shadow:
+    0 7px 18px rgba(42, 151, 72, 0.18);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.nav-register:hover {
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 10px 23px rgba(42, 151, 72, 0.25);
+}
+
+
+/* =====================================
+   MOBILE BUTTON
+===================================== */
+
+.menu-button {
+  width: 40px;
+  height: 40px;
+
+  display: none;
+
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+
+  gap: 5px;
+
+  border: none;
+
+  border-radius: 9px;
+
+  background:
+    rgba(47, 160, 78, 0.06);
+
+  cursor: pointer;
+}
+
+
+.menu-button span {
+  width: 19px;
+  height: 2px;
+
+  border-radius: 10px;
+
+  background: #315b3c;
+
+  transition:
+    transform 0.25s ease,
+    opacity 0.25s ease;
+}
+
+
+/* HAMBURGER → X */
+
+.menu-button.active span:nth-child(1) {
+  transform:
+    translateY(7px)
+    rotate(45deg);
+}
+
+
+.menu-button.active span:nth-child(2) {
+  opacity: 0;
+}
+
+
+.menu-button.active span:nth-child(3) {
+  transform:
+    translateY(-7px)
+    rotate(-45deg);
+}
+
+
+/* Mobile buttons normally hidden */
+
+.mobile-buttons {
+  display: none;
+}
+
+
+/* =====================================
+   TABLET / MOBILE
+===================================== */
+
+@media (max-width: 900px) {
+
+  .navbar-container {
+    padding: 0 25px;
+  }
+
+
+  .navbar-links {
+    position: absolute;
+
+    top: 76px;
+    left: 20px;
+    right: 20px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: stretch;
+
+    gap: 0;
+
+    padding: 15px;
+
+    border:
+      1px solid rgba(45, 154, 75, 0.12);
+
+    border-radius: 15px;
+
+    background:
+      rgba(255, 255, 255, 0.98);
+
+    box-shadow:
+      0 20px 45px rgba(28, 75, 40, 0.12);
+
+    transform:
+      translateY(-15px);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transition:
+      opacity 0.22s ease,
+      transform 0.22s ease,
+      visibility 0.22s ease;
+  }
+
+
+  .navbar-links.open {
+    opacity: 1;
+
+    visibility: visible;
+
+    transform:
+      translateY(0);
+  }
+
+
+  .navbar-links > a {
+    padding: 14px 15px;
+
+    border-radius: 8px;
+  }
+
+
+  .navbar-links > a:hover {
+    background:
+      rgba(53, 167, 84, 0.06);
+  }
+
+
+  .navbar-links > a::after {
+    display: none;
+  }
+
+
+  .navbar-actions {
+    display: none;
+  }
+
+
+  .menu-button {
+    display: flex;
+  }
+
+
+  .mobile-buttons {
+    display: flex;
+
+    gap: 10px;
+
+    padding-top: 10px;
+  }
+
+
+  .mobile-buttons .nav-login,
+  .mobile-buttons .nav-register {
+    flex: 1;
+  }
+
+}
+
+
+/* =====================================
+   SMALL MOBILE
+===================================== */
+
+@media (max-width: 500px) {
+
+  .navbar-container {
+    padding: 0 16px;
+  }
+
+
+  .navbar-brand {
+    font-size: 18px;
+  }
+
+
+  .navbar-logo-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+}
