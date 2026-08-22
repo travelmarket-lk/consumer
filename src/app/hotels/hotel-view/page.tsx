@@ -29,8 +29,6 @@ import Loading from "../loading";
 
 export default function HotelViewPage() {
   // Hotel Data
-
-
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<any>(null);
@@ -48,28 +46,28 @@ export default function HotelViewPage() {
   const [guestsCount, setGuestsCount] = useState("2 Adults, 0 Children");
 
   const hotel = KANDY_HOTEL_DATA || data;
+  const [city, setCity] = useState("");
 
-useEffect(() => {
-  fetch("/api/v1/hotel") 
-    .then((res) => {
-      if (!res.ok) throw new Error("Network response was not ok");
-      return res.json();
-    })
-    .then((result) => {
-      setData(result);
-      setLoading(false);
-    })
-    .catch((error) => {
-      setError(error);
-      setLoading(false);
-    });
-}, []);
+  useEffect(() => {
+    fetch("/api/v1/hotel") 
+      .then((res) => {
+        if (!res.ok) throw new Error("Network response was not ok");
+        return res.json();
+      })
+      .then((result) => {
+        setData(result);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setError(error);
+        setLoading(false);
+      });
+  }, []);
 
-if (loading) {
-  return <Loading />;
+  if (loading) {
+    return <Loading />;
   }
   
-
   // Handle Room Quantity Change
   const handleQuantityChange = (roomId: string, quantity: number) => {
     setRoomQuantities((prev) => ({
@@ -256,9 +254,26 @@ if (loading) {
           ))}
         </section>
 
-        {/* Section 4: Sticky Search & Availability Selector Bar */}
+       {/* Section 4: Sticky Search & Availability Selector Bar */}
         <section className="rounded-2xl bg-slate-900 p-4 sm:p-6 text-white shadow-xl">
-          <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4 items-end">
+          {/* Note: Changed to lg:grid-cols-5 to fit the new City search tab */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 items-end">
+            
+            {/* NEW: City / Location Search Tab */}
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                <MapPin className="h-4 w-4 text-cyan-400" /> City / Location
+              </label>
+              <input
+                type="text"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+                placeholder="Where to?"
+                className="w-full rounded-xl bg-slate-800 border border-slate-700 px-3.5 py-2.5 text-xs font-semibold text-white placeholder:text-slate-500 focus:border-cyan-500 focus:outline-none"
+              />
+            </div>
+
+            {/* Check-in Date */}
             <div className="space-y-1.5">
               <label className="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
                 <Calendar className="h-4 w-4 text-cyan-400" /> Check-in Date
@@ -271,6 +286,7 @@ if (loading) {
               />
             </div>
 
+            {/* Check-out Date */}
             <div className="space-y-1.5">
               <label className="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
                 <Calendar className="h-4 w-4 text-cyan-400" /> Check-out Date
@@ -283,6 +299,7 @@ if (loading) {
               />
             </div>
 
+            {/* Guests & Rooms */}
             <div className="space-y-1.5">
               <label className="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
                 <Users className="h-4 w-4 text-cyan-400" /> Guests & Rooms
@@ -299,6 +316,7 @@ if (loading) {
               </select>
             </div>
 
+            {/* Search Button */}
             <button
               onClick={() => handleScrollToSection("rooms")}
               className="w-full rounded-xl bg-cyan-600 py-3 text-xs font-bold text-white shadow-lg shadow-cyan-600/30 hover:bg-cyan-500 transition-all hover:scale-102"
