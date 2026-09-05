@@ -11,3 +11,8 @@ export async function getHotels(params?: { destination?: string; guests?: number
 export async function getHotel(hotelId: string) {
   return apiClient<Hotel>(`/api/v1/hotels/${encodeURIComponent(hotelId)}`);
 }
+
+
+export async function searchHotels() {
+  return apiClient<Hotel[]>(`/api/v1/hotel/summary`);
+}

@@ -3,11 +3,12 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
+
     const hotelData = KANDY_HOTEL_DATA;
 
     return NextResponse.json(
         {
-          data: [hotelData],
+          data: hotelData,
           metaInfo: {
             totalCount: Array.isArray(hotelData) ? hotelData.length : 1,
           },

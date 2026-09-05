@@ -89,7 +89,7 @@ export interface HotelData {
 
 export const KANDY_HOTEL_DATA: HotelData = {
   id: "kandy-city-stay-001",
-  name: "Kandy City Stay & Luxury Suites",
+  name: "Kandy City Stay & Luxury Suites asdadsda",
   starRating: 4,
   reviewScore: 8.8,
   reviewCount: 1420,

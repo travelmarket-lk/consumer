@@ -19,13 +19,14 @@ import {
   Loader2,
 } from "lucide-react";
 
-import { KANDY_HOTEL_DATA, RoomType } from "./types/hotel-data";
+import {HotelData, KANDY_HOTEL_DATA, RoomType} from "./types/hotel-data";
 import { HotelGalleryModal } from "./components/HotelGalleryModal";
 import { RoomDetailsModal } from "./components/RoomDetailsModal";
 import { RoomCard } from "./components/RoomCard";
 import { ReviewsSection } from "./components/ReviewsSection";
 import { StickyBookingBar } from "./components/StickyBookingBar";
 import Loading from "../loading";
+import {searchHotels} from "@/features/hotel/services/hotel.service";
 
 export default function HotelViewPage() {
   // Hotel Data
@@ -45,23 +46,20 @@ export default function HotelViewPage() {
   const [checkOutDate, setCheckOutDate] = useState("2026-09-04");
   const [guestsCount, setGuestsCount] = useState("2 Adults, 0 Children");
 
-  const hotel = KANDY_HOTEL_DATA || data;
+  const hotel: HotelData = data;
   const [city, setCity] = useState("");
 
+  const triggerSearch = () => {
+    searchHotels().then((res) => {
+      if( res && res.length > 0){
+        setData(res[0]);
+      }
+      setLoading(false);
+    })
+  }
+
   useEffect(() => {
-    fetch("/api/v1/hotel") 
-      .then((res) => {
-        if (!res.ok) throw new Error("Network response was not ok");
-        return res.json();
-      })
-      .then((result) => {
-        setData(result);
-        setLoading(false);
-      })
-      .catch((error) => {
-        setError(error);
-        setLoading(false);
-      });
+    triggerSearch();
   }, []);
 
   if (loading) {
