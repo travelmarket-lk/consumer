@@ -1,4 +1,4 @@
-import { KANDY_HOTEL_DATA } from "@/app/hotels/hotel-view/hotel-data";
+import { KANDY_HOTEL_DATA } from "@/app/hotels/hotel-view/types/hotel-data";
 import { NextResponse } from "next/server";
 
 export async function GET() {

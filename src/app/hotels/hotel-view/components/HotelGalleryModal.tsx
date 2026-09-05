@@ -3,13 +3,8 @@
 import { useState } from "react";
 import Image from "next/image";
 import { X, ChevronLeft, ChevronRight, Grid } from "lucide-react";
+import { GalleryModalProps } from "../types/hotel-data";
 
-interface GalleryModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  images: { url: string; caption: string; category: string }[];
-  hotelName: string;
-}
 
 export function HotelGalleryModal({
   isOpen,

@@ -431,3 +431,47 @@ export const KANDY_HOTEL_DATA: HotelData = {
     },
   ],
 };
+
+
+
+export interface StickyBookingBarProps {
+  selectedRooms: { room: RoomType; quantity: number }[];
+  onProceed: () => void;
+}
+
+
+export interface RoomDetailsModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  room: RoomType | null;
+  onSelectRoom: (roomId: string) => void;
+}
+
+export interface RoomCardProps {
+  room: RoomType;
+  selectedQuantity: number;
+  onQuantityChange: (roomId: string, quantity: number) => void;
+  onOpenDetails: (room: RoomType) => void;
+}
+
+export interface ReviewsSectionProps {
+  score: number;
+  reviewCount: number;
+  label: string;
+  categories: {
+    cleanliness: number;
+    location: number;
+    service: number;
+    facilities: number;
+    valueForMoney: number;
+    comfort: number;
+  };
+  reviews: Review[];
+}
+
+export interface GalleryModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  images: { url: string; caption: string; category: string }[];
+  hotelName: string;
+}

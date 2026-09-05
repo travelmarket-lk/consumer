@@ -26,6 +26,13 @@ export default function Loading() {
       <Skeleton className="h-20 w-72" />
 
       </div>
+      <div className="mt-10 gap-2">
+        <Skeleton className="h-15 w-full m-2" />
+        <Skeleton className="h-15 w-full m-2" />
+        <Skeleton className="h-15 w-full m-2" />
+        <Skeleton className="h-15 w-full m-2" />
+
+      </div>
     </main>
 
   );

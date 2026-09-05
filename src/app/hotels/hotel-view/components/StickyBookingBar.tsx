@@ -1,12 +1,10 @@
 "use client";
 
 import { ShoppingBag, ArrowRight, ShieldCheck } from "lucide-react";
-import type { RoomType } from "../hotel-data";
+import { StickyBookingBarProps } from "../types/hotel-data";
 
-interface StickyBookingBarProps {
-  selectedRooms: { room: RoomType; quantity: number }[];
-  onProceed: () => void;
-}
+
+
 
 export function StickyBookingBar({ selectedRooms, onProceed }: StickyBookingBarProps) {
   const totalQuantity = selectedRooms.reduce((acc, item) => acc + item.quantity, 0);

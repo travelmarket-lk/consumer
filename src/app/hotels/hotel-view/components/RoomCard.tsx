@@ -2,14 +2,8 @@
 
 import Image from "next/image";
 import { Users, Maximize2, Bed, Check, Info, ShieldCheck, ChevronRight } from "lucide-react";
-import type { RoomType } from "../hotel-data";
+import type { RoomCardProps } from "../types/hotel-data";
 
-interface RoomCardProps {
-  room: RoomType;
-  selectedQuantity: number;
-  onQuantityChange: (roomId: string, quantity: number) => void;
-  onOpenDetails: (room: RoomType) => void;
-}
 
 export function RoomCard({ room, selectedQuantity, onQuantityChange, onOpenDetails }: RoomCardProps) {
   const isSelected = selectedQuantity > 0;

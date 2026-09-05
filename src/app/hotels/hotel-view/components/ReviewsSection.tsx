@@ -2,22 +2,9 @@
 
 import Image from "next/image";
 import { Star, ThumbsUp, MessageSquare, Award } from "lucide-react";
-import type { Review } from "../hotel-data";
+import type { ReviewsSectionProps } from "../types/hotel-data";
 
-interface ReviewsSectionProps {
-  score: number;
-  reviewCount: number;
-  label: string;
-  categories: {
-    cleanliness: number;
-    location: number;
-    service: number;
-    facilities: number;
-    valueForMoney: number;
-    comfort: number;
-  };
-  reviews: Review[];
-}
+
 
 export function ReviewsSection({ score, reviewCount, label, categories, reviews }: ReviewsSectionProps) {
   return (
