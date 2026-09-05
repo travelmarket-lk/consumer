@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -19,16 +20,22 @@ import {
   Loader2,
 } from "lucide-react";
 
-import { KANDY_HOTEL_DATA, RoomType } from "./types/hotel-data";
+
 import { HotelGalleryModal } from "./components/HotelGalleryModal";
 import { RoomDetailsModal } from "./components/RoomDetailsModal";
 import { RoomCard } from "./components/RoomCard";
 import { ReviewsSection } from "./components/ReviewsSection";
 import { StickyBookingBar } from "./components/StickyBookingBar";
 import Loading from "../loading";
+import { KANDY_HOTEL_DATA, RoomType } from "./types/hotel-data";
+
 
 export default function HotelViewPage() {
   // Hotel Data
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<any>(null);
@@ -41,33 +48,66 @@ export default function HotelViewPage() {
   const [isSaved, setIsSaved] = useState(false);
 
   // Search Bar state
-  const [checkInDate, setCheckInDate] = useState("2026-09-02");
-  const [checkOutDate, setCheckOutDate] = useState("2026-09-04");
-  const [guestsCount, setGuestsCount] = useState("2 Adults, 0 Children");
+  const [checkInDate, setCheckInDate] = useState(searchParams.get("checkIn") || "2026-09-02");
+  const [checkOutDate, setCheckOutDate] = useState(searchParams.get("checkOut") || "2026-09-04");
+  const [guestsCount, setGuestsCount] = useState(searchParams.get("guests") || "2 Adults, 0 Children");
+
+
 
   const hotel = KANDY_HOTEL_DATA || data;
-  const [city, setCity] = useState("");
 
-  useEffect(() => {
-    fetch("/api/v1/hotel") 
-      .then((res) => {
-        if (!res.ok) throw new Error("Network response was not ok");
-        return res.json();
-      })
-      .then((result) => {
-        setData(result);
-        setLoading(false);
-      })
-      .catch((error) => {
-        setError(error);
-        setLoading(false);
-      });
-  }, []);
+  const handleCheckAvailability = () =>{
 
-  if (loading) {
-    return <Loading />;
+    const params = new URLSearchParams(searchParams.toString());
+    
+    if (checkInDate) {
+      params.set("checkIn", checkInDate);
+    }else{
+      params.delete("checkIn");
+    }
+
+    if (checkOutDate) {
+      params.set("checkOut", checkOutDate);
+    }else{
+      params.delete("checkOut");
+    }
+
+    if (guestsCount) {
+      params.set("guests", guestsCount);
+    }else{
+      params.delete("guests");
+    }
+
+    router.push(`${pathname}?${params.toString()}`,{scroll: false});
+
+    handleScrollToSection("rooms");
+  };
+
+
+
+
+
+useEffect(() => {
+  fetch("/api/v1/hotel") 
+    .then((res) => {
+      if (!res.ok) throw new Error("Network response was not ok");
+      return res.json();
+    })
+    .then((result) => {
+      setData(result);
+      setLoading(false);
+    })
+    .catch((error) => {
+      setError(error);
+      setLoading(false);
+    });
+}, []);
+
+if (loading) {
+  return <Loading />;
   }
   
+
   // Handle Room Quantity Change
   const handleQuantityChange = (roomId: string, quantity: number) => {
     setRoomQuantities((prev) => ({
@@ -103,29 +143,64 @@ export default function HotelViewPage() {
       <nav className="sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur-md shadow-sm">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 h-14 text-xs font-medium text-slate-600">
           <div className="flex items-center gap-2 overflow-x-auto whitespace-nowrap scrollbar-none py-2">
-            <Link href="/" className="hover:text-cyan-700">Home</Link>
+            <Link href="/" className="hover:text-cyan-700">
+              Home
+            </Link>
             <span>/</span>
-            <Link href="/hotels" className="hover:text-cyan-700">Sri Lanka</Link>
+            <Link href="/hotels" className="hover:text-cyan-700">
+              Sri Lanka
+            </Link>
             <span>/</span>
             <span className="hover:text-cyan-700">Kandy</span>
             <span>/</span>
-            <span className="font-semibold text-slate-900 truncate max-w-37.5 sm:max-w-none">{hotel.name}</span>
+            <span className="font-semibold text-slate-900 truncate max-w-37.5 sm:max-w-none">
+              {hotel.name}
+            </span>
           </div>
 
           <div className="hidden md:flex items-center gap-6 font-semibold">
-            <button onClick={() => handleScrollToSection("overview")} className="hover:text-cyan-700 transition-colors">Overview</button>
-            <button onClick={() => handleScrollToSection("gallery")} className="hover:text-cyan-700 transition-colors">Photos</button>
-            <button onClick={() => handleScrollToSection("rooms")} className="hover:text-cyan-700 transition-colors">Rooms & Rates</button>
-            <button onClick={() => handleScrollToSection("facilities")} className="hover:text-cyan-700 transition-colors">Facilities</button>
-            <button onClick={() => handleScrollToSection("reviews")} className="hover:text-cyan-700 transition-colors">Reviews</button>
-            <button onClick={() => handleScrollToSection("location")} className="hover:text-cyan-700 transition-colors">Location</button>
+            <button
+              onClick={() => handleScrollToSection("overview")}
+              className="hover:text-cyan-700 transition-colors"
+            >
+              Overview
+            </button>
+            <button
+              onClick={() => handleScrollToSection("gallery")}
+              className="hover:text-cyan-700 transition-colors"
+            >
+              Photos
+            </button>
+            <button
+              onClick={() => handleScrollToSection("rooms")}
+              className="hover:text-cyan-700 transition-colors"
+            >
+              Rooms & Rates
+            </button>
+            <button
+              onClick={() => handleScrollToSection("facilities")}
+              className="hover:text-cyan-700 transition-colors"
+            >
+              Facilities
+            </button>
+            <button
+              onClick={() => handleScrollToSection("reviews")}
+              className="hover:text-cyan-700 transition-colors"
+            >
+              Reviews
+            </button>
+            <button
+              onClick={() => handleScrollToSection("location")}
+              className="hover:text-cyan-700 transition-colors"
+            >
+              Location
+            </button>
           </div>
         </div>
       </nav>
 
       {/* Main Content Container */}
       <main className="mx-auto max-w-7xl px-4 sm:px-6 pt-6 space-y-8">
-        
         {/* Section 1: Hotel Title, Rating Badges & Actions Header */}
         <section id="overview" className="space-y-3">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -148,7 +223,9 @@ export default function HotelViewPage() {
               <div className="flex flex-wrap items-center gap-3 mt-1.5 text-xs text-slate-600">
                 <div className="flex items-center gap-1 font-medium">
                   <MapPin className="h-4 w-4 text-rose-500 flex-shrink-0" />
-                  <span>{hotel.address}, {hotel.city}, {hotel.country}</span>
+                  <span>
+                    {hotel.address}, {hotel.city}, {hotel.country}
+                  </span>
                 </div>
                 <button
                   onClick={() => handleScrollToSection("location")}
@@ -166,8 +243,12 @@ export default function HotelViewPage() {
                   {hotel.reviewScore}
                 </div>
                 <div>
-                  <div className="text-sm font-bold text-slate-900">{hotel.reviewLabel}</div>
-                  <div className="text-xs text-slate-500">{hotel.reviewCount.toLocaleString()} reviews</div>
+                  <div className="text-sm font-bold text-slate-900">
+                    {hotel.reviewLabel}
+                  </div>
+                  <div className="text-xs text-slate-500">
+                    {hotel.reviewCount.toLocaleString()} reviews
+                  </div>
                 </div>
               </div>
 
@@ -175,11 +256,15 @@ export default function HotelViewPage() {
                 <button
                   onClick={() => setIsSaved(!isSaved)}
                   className={`rounded-xl p-3 border transition-colors ${
-                    isSaved ? "bg-rose-50 border-rose-200 text-rose-600" : "bg-white border-slate-200 text-slate-600 hover:bg-slate-50"
+                    isSaved
+                      ? "bg-rose-50 border-rose-200 text-rose-600"
+                      : "bg-white border-slate-200 text-slate-600 hover:bg-slate-50"
                   }`}
                   aria-label="Save hotel"
                 >
-                  <Heart className={`h-5 w-5 ${isSaved ? "fill-rose-600" : ""}`} />
+                  <Heart
+                    className={`h-5 w-5 ${isSaved ? "fill-rose-600" : ""}`}
+                  />
                 </button>
                 <button
                   className="rounded-xl bg-white p-3 border border-slate-200 text-slate-600 hover:bg-slate-50 transition-colors"
@@ -242,7 +327,10 @@ export default function HotelViewPage() {
         {/* Section 3: Highlights & Key Advantages Bar */}
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {hotel.highlights.map((h, i) => (
-            <div key={i} className="flex items-start gap-3 rounded-2xl bg-white p-4 border border-slate-200/80 shadow-sm">
+            <div
+              key={i}
+              className="flex items-start gap-3 rounded-2xl bg-white p-4 border border-slate-200/80 shadow-sm"
+            >
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-cyan-50 text-cyan-600">
                 <Sparkles className="h-5 w-5" />
               </div>
@@ -254,80 +342,65 @@ export default function HotelViewPage() {
           ))}
         </section>
 
-       {/* Section 4: Availability Selector Bar */}
-        <section className="relative rounded-[2rem] bg-slate-900/90 backdrop-blur-xl p-2 shadow-2xl shadow-slate-900/40 border border-slate-700/50 z-20 mt-8 mb-4">
-          {/* Decorative Glow Background */}
-          <div className="absolute -inset-0.5 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-[2rem] opacity-20 blur-lg pointer-events-none"></div>
-
-          <div className="relative flex flex-col lg:flex-row lg:items-stretch bg-slate-900 rounded-3xl overflow-hidden divide-y lg:divide-y-0 lg:divide-x divide-slate-800">
-            
-            {/* City / Location */}
-            <div className="relative flex-1 group hover:bg-slate-800/50 transition-colors cursor-text px-6 py-4 flex flex-col justify-center">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1 flex items-center gap-1.5">
-                <MapPin className="h-3.5 w-3.5 text-cyan-400 group-hover:text-cyan-300 transition-colors" /> Location
-              </label>
-              <input
-                type="text"
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-                placeholder="Where are you going?"
-                className="w-full bg-transparent text-sm sm:text-base font-bold text-white placeholder:text-slate-600 focus:outline-none"
-              />
-            </div>
-
-            {/* Check-in Date */}
-            <div className="relative flex-1 group hover:bg-slate-800/50 transition-colors cursor-pointer px-6 py-4 flex flex-col justify-center">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1 flex items-center gap-1.5">
-                <Calendar className="h-3.5 w-3.5 text-cyan-400 group-hover:text-cyan-300 transition-colors" /> Check-in
+        {/* Section 4: Sticky Search & Availability Selector Bar */}
+        <section className="rounded-2xl bg-slate-900 p-4 sm:p-6 text-white shadow-xl">
+          <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4 items-end">
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                <Calendar className="h-4 w-4 text-cyan-400" /> Check-in Date
               </label>
               <input
                 type="date"
                 value={checkInDate}
                 onChange={(e) => setCheckInDate(e.target.value)}
-                className="w-full bg-transparent text-sm sm:text-base font-bold text-white focus:outline-none cursor-pointer [&::-webkit-calendar-picker-indicator]:invert-[1] [&::-webkit-calendar-picker-indicator]:opacity-50 hover:[&::-webkit-calendar-picker-indicator]:opacity-100 transition-opacity"
+                className="w-full rounded-xl bg-slate-800 border border-slate-700 px-3.5 py-2.5 text-xs font-semibold text-white focus:border-cyan-500 focus:outline-none"
               />
             </div>
 
-            {/* Check-out Date */}
-            <div className="relative flex-1 group hover:bg-slate-800/50 transition-colors cursor-pointer px-6 py-4 flex flex-col justify-center">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1 flex items-center gap-1.5">
-                <Calendar className="h-3.5 w-3.5 text-cyan-400 group-hover:text-cyan-300 transition-colors" /> Check-out
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                <Calendar className="h-4 w-4 text-cyan-400" /> Check-out Date
               </label>
               <input
                 type="date"
                 value={checkOutDate}
                 onChange={(e) => setCheckOutDate(e.target.value)}
-                className="w-full bg-transparent text-sm sm:text-base font-bold text-white focus:outline-none cursor-pointer [&::-webkit-calendar-picker-indicator]:invert-[1] [&::-webkit-calendar-picker-indicator]:opacity-50 hover:[&::-webkit-calendar-picker-indicator]:opacity-100 transition-opacity"
+                className="w-full rounded-xl bg-slate-800 border border-slate-700 px-3.5 py-2.5 text-xs font-semibold text-white focus:border-cyan-500 focus:outline-none"
               />
             </div>
 
-            {/* Guests & Rooms */}
-            <div className="relative flex-1 group hover:bg-slate-800/50 transition-colors cursor-pointer px-6 py-4 flex flex-col justify-center">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1 flex items-center gap-1.5">
-                <Users className="h-3.5 w-3.5 text-cyan-400 group-hover:text-cyan-300 transition-colors" /> Guests & Rooms
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                <Users className="h-4 w-4 text-cyan-400" /> Guests & Rooms
               </label>
               <select
                 value={guestsCount}
                 onChange={(e) => setGuestsCount(e.target.value)}
-                className="w-full bg-transparent text-sm sm:text-base font-bold text-white focus:outline-none cursor-pointer"
+                className="w-full rounded-xl bg-slate-800 border border-slate-700 px-3.5 py-2.5 text-xs font-semibold text-white focus:border-cyan-500 focus:outline-none"
               >
-                <option value="1 Adult, 0 Children" className="bg-slate-800 text-white">1 Adult, 1 Room</option>
-                <option value="2 Adults, 0 Children" className="bg-slate-800 text-white">2 Adults, 1 Room</option>
-                <option value="2 Adults, 1 Child" className="bg-slate-800 text-white">2 Adults + 1 Child, 1 Room</option>
-                <option value="4 Adults, 2 Children" className="bg-slate-800 text-white">4 Adults + 2 Children, 2 Rooms</option>
+                <option value="1 Adult, 0 Children">1 Adult, 1 Room</option>
+                <option value="2 Adults, 0 Children">2 Adults, 1 Room</option>
+                <option value="2 Adults, 1 Child">
+                  2 Adults + 1 Child, 1 Room
+                </option>
+                <option value="4 Adults, 2 Children">
+                  4 Adults + 2 Children, 2 Rooms
+                </option>
               </select>
             </div>
 
-            {/* Action Button */}
-            <div className="p-2 lg:p-3 flex items-center justify-center bg-slate-900">
-              <button
-                onClick={() => handleScrollToSection("rooms")}
-                className="w-full lg:w-auto h-full min-h-[3rem] lg:min-h-full flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 px-8 py-3 text-sm font-black text-white shadow-lg shadow-cyan-600/30 hover:shadow-cyan-600/50 hover:scale-[1.02] transition-all duration-300"
-              >
-                <Sparkles className="h-4 w-4" />
-                <span>Search</span>
-              </button>
-            </div>
+            {/* <button
+              onClick={() => handleScrollToSection("rooms")}
+              className="w-full rounded-xl bg-cyan-600 py-3 text-xs font-bold text-white shadow-lg shadow-cyan-600/30 hover:bg-cyan-500 transition-all hover:scale-102"
+            >
+              Check Availability
+            </button> */}
+            <button
+              onClick={handleCheckAvailability}
+              className="w-full rounded-xl bg-cyan-600 py-3 text-xs font-bold text-white shadow-lg shadow-cyan-600/30 hover:bg-cyan-500 transition-all hover:scale-102"
+            >
+              Check Availability
+            </button>
 
           </div>
         </section>
@@ -339,7 +412,9 @@ export default function HotelViewPage() {
               <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
                 <Building className="h-5 w-5 text-cyan-600" /> Select Your Room
               </h2>
-              <p className="text-xs text-slate-500 mt-0.5">All rates include taxes, fees & free high-speed Wi-Fi</p>
+              <p className="text-xs text-slate-500 mt-0.5">
+                All rates include taxes, fees & free high-speed Wi-Fi
+              </p>
             </div>
 
             {/* Room Filter Category Tabs */}
@@ -380,9 +455,14 @@ export default function HotelViewPage() {
         </section>
 
         {/* Section 6: Property Overview & Top Amenities */}
-        <section id="facilities" className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <section
+          id="facilities"
+          className="grid grid-cols-1 lg:grid-cols-3 gap-8"
+        >
           <div className="lg:col-span-2 space-y-4 rounded-2xl bg-white p-6 border border-slate-200 shadow-sm">
-            <h3 className="text-lg font-bold text-slate-900">About {hotel.name}</h3>
+            <h3 className="text-lg font-bold text-slate-900">
+              About {hotel.name}
+            </h3>
             <div className="space-y-3 text-xs text-slate-600 leading-relaxed">
               {hotel.description.map((para, i) => (
                 <p key={i}>{para}</p>
@@ -390,10 +470,15 @@ export default function HotelViewPage() {
             </div>
 
             <div className="pt-4 border-t border-slate-100">
-              <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-3">Popular Property Facilities</h4>
+              <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-3">
+                Popular Property Facilities
+              </h4>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {hotel.topAmenities.map((am, i) => (
-                  <div key={i} className="flex items-center gap-2 rounded-xl bg-slate-50 p-2.5 border border-slate-100 text-xs font-medium text-slate-700">
+                  <div
+                    key={i}
+                    className="flex items-center gap-2 rounded-xl bg-slate-50 p-2.5 border border-slate-100 text-xs font-medium text-slate-700"
+                  >
                     <CheckCircle2 className="h-4 w-4 text-cyan-600 flex-shrink-0" />
                     <span>{am.label}</span>
                   </div>
@@ -403,7 +488,10 @@ export default function HotelViewPage() {
           </div>
 
           {/* Nearby Landmarks Card */}
-          <div id="location" className="space-y-4 rounded-2xl bg-white p-6 border border-slate-200 shadow-sm">
+          <div
+            id="location"
+            className="space-y-4 rounded-2xl bg-white p-6 border border-slate-200 shadow-sm"
+          >
             <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
               <MapPin className="h-5 w-5 text-cyan-600" /> Location Highlights
             </h3>
@@ -411,9 +499,14 @@ export default function HotelViewPage() {
 
             <div className="space-y-3 pt-2">
               {hotel.landmarks.map((lm, i) => (
-                <div key={i} className="flex items-center justify-between text-xs border-b border-slate-100 pb-2">
+                <div
+                  key={i}
+                  className="flex items-center justify-between text-xs border-b border-slate-100 pb-2"
+                >
                   <span className="font-medium text-slate-700">{lm.name}</span>
-                  <span className="font-bold text-slate-900 bg-slate-100 px-2 py-0.5 rounded">{lm.distance}</span>
+                  <span className="font-bold text-slate-900 bg-slate-100 px-2 py-0.5 rounded">
+                    {lm.distance}
+                  </span>
                 </div>
               ))}
             </div>
@@ -434,26 +527,32 @@ export default function HotelViewPage() {
         {/* Section 8: Property Policies */}
         <section className="rounded-2xl bg-white p-6 border border-slate-200 shadow-sm space-y-4">
           <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-            <ShieldCheck className="h-5 w-5 text-cyan-600" /> Hotel Policies & Essential Info
+            <ShieldCheck className="h-5 w-5 text-cyan-600" /> Hotel Policies &
+            Essential Info
           </h3>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
             {hotel.policies.map((pol, i) => (
               <div key={i} className="space-y-1">
-                <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">{pol.title}</h4>
-                <p className="text-xs text-slate-600 leading-relaxed">{pol.details}</p>
+                <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
+                  {pol.title}
+                </h4>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  {pol.details}
+                </p>
               </div>
             ))}
           </div>
         </section>
-
       </main>
 
       {/* Floating Bottom Selected Rooms Bar */}
       <StickyBookingBar
         selectedRooms={selectedRoomsList}
         onProceed={() => {
-          alert(`Proceeding to checkout with ${selectedRoomsList.reduce((acc, i) => acc + i.quantity, 0)} room(s). Total: $${selectedRoomsList.reduce((acc, i) => acc + i.room.pricePerNight * i.quantity, 0)}`);
+          alert(
+            `Proceeding to checkout with ${selectedRoomsList.reduce((acc, i) => acc + i.quantity, 0)} room(s). Total: $${selectedRoomsList.reduce((acc, i) => acc + i.room.pricePerNight * i.quantity, 0)}`,
+          );
         }}
       />
 
