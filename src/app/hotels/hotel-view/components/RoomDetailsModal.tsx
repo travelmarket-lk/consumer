@@ -2,14 +2,10 @@
 
 import Image from "next/image";
 import { X, Check, Users, Maximize2, Bed, Eye, ShieldCheck, Sparkles } from "lucide-react";
-import type { RoomType } from "../hotel-data";
 
-interface RoomDetailsModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  room: RoomType | null;
-  onSelectRoom: (roomId: string) => void;
-}
+import { RoomDetailsModalProps, RoomType } from "../types/hotel-data";
+
+
 
 export function RoomDetailsModal({ isOpen, onClose, room, onSelectRoom }: RoomDetailsModalProps) {
   if (!isOpen || !room) return null;

@@ -19,7 +19,7 @@ import {
   Loader2,
 } from "lucide-react";
 
-import { KANDY_HOTEL_DATA, RoomType } from "./hotel-data";
+import { KANDY_HOTEL_DATA, RoomType } from "./types/hotel-data";
 import { HotelGalleryModal } from "./components/HotelGalleryModal";
 import { RoomDetailsModal } from "./components/RoomDetailsModal";
 import { RoomCard } from "./components/RoomCard";
