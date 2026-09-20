@@ -1,5 +1,5 @@
 import { apiClient } from "@/lib/api/api-client";
-import type { Hotel } from "@/features/hotel/types/hotel.types";
+import type { Hotel, HotelData } from "@/features/hotel/types/hotel.types";
 
 export async function getHotels(params?: { destination?: string; guests?: number }) {
   const query = new URLSearchParams();
@@ -13,6 +13,7 @@ export async function getHotel(hotelId: string) {
 }
 
 
-export async function searchHotels() {
-  return apiClient<Hotel[]>(`/api/v1/hotel/summary`);
+export async function searchHotels(hotelId?: string) {
+  const query = hotelId ? `?id=${encodeURIComponent(hotelId)}` : "";
+  return apiClient<HotelData[]>(`/api/v1/hotel/summary${query}`);
 }

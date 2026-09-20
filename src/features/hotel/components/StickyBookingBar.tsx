@@ -1,17 +1,15 @@
 "use client";
 
 import { ShoppingBag, ArrowRight, ShieldCheck } from "lucide-react";
-import { StickyBookingBarProps } from "../types/hotel-data";
+import type { StickyBookingBarProps } from "@/features/hotel/types/hotel-props";
 
-
-
-
-export function StickyBookingBar({ selectedRooms, onProceed }: StickyBookingBarProps) {
+export function StickyBookingBar({ selectedRooms, onProceed, nights = 1 }: StickyBookingBarProps) {
   const totalQuantity = selectedRooms.reduce((acc, item) => acc + item.quantity, 0);
 
   if (totalQuantity === 0) return null;
 
-  const totalPrice = selectedRooms.reduce((acc, item) => acc + item.room.pricePerNight * item.quantity, 0);
+  const stayNights = nights > 0 ? nights : 1;
+  const totalPrice = selectedRooms.reduce((acc, item) => acc + item.room.pricePerNight * item.quantity * stayNights, 0);
 
   return (
     <div className="fixed bottom-0 inset-x-0 z-40 bg-slate-900/95 text-white backdrop-blur-md border-t border-slate-800 shadow-2xl py-3.5 px-4 sm:px-8 animate-slideUp">
@@ -43,7 +41,9 @@ export function StickyBookingBar({ selectedRooms, onProceed }: StickyBookingBarP
         {/* Right: Total Price & CTA Button */}
         <div className="flex items-center gap-4">
           <div className="text-right">
-            <div className="text-xs text-slate-400">Total Price</div>
+            <div className="text-xs text-slate-400">
+              {stayNights > 1 ? `Total (${stayNights} nights)` : "Total Price"}
+            </div>
             <div className="text-xl sm:text-2xl font-black text-white">${totalPrice}</div>
           </div>
 

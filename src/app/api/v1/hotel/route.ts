@@ -1,9 +1,9 @@
-import { KANDY_HOTEL_DATA } from "@/app/hotels/hotel-view/types/hotel-data";
+import { KANDY_HOTEL_DATA, NUWARA_ELIYA_GRAND_DATA } from "@/features/hotel/types/hotel-data";
 import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const hotelData = KANDY_HOTEL_DATA;
+    const hotelData = NUWARA_ELIYA_GRAND_DATA;
 
     return NextResponse.json(
         {

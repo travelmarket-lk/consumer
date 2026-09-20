@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { X, Check, Users, Maximize2, Bed, Eye, ShieldCheck, Sparkles } from "lucide-react";
 
-import { RoomDetailsModalProps, RoomType } from "../types/hotel-data";
+import { RoomDetailsModalProps, RoomType } from "@/features/hotel/types/hotel.types";
 
 
 
@@ -130,7 +130,7 @@ export function RoomDetailsModal({ isOpen, onClose, room, onSelectRoom }: RoomDe
             </button>
             <button
               onClick={() => {
-                onSelectRoom(room.id);
+                onSelectRoom?.(room.id);
                 onClose();
               }}
               className="rounded-xl bg-cyan-600 px-6 py-2.5 text-sm font-bold text-white shadow-lg shadow-cyan-600/30 hover:bg-cyan-700 transition-colors"
