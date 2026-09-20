@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { Star, ThumbsUp, MessageSquare, Award } from "lucide-react";
-import type { ReviewsSectionProps } from "../types/hotel-data";
+import type { ReviewsSectionProps } from "../types/hotel.types";
 
 
 

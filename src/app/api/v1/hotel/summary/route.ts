@@ -1,38 +1,40 @@
-import { KANDY_HOTEL_DATA } from "@/app/hotels/hotel-view/types/hotel-data";
+import { getHotelById } from "@/features/hotel/types/hotel-data";
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const hotelData = KANDY_HOTEL_DATA;
+    const { searchParams } = new URL(request.url);
+    const hotelId = searchParams.get("id") || searchParams.get("hotelId");
+    const hotelData = getHotelById(hotelId);
 
     return NextResponse.json(
-        {
-          data: [hotelData],
-          metaInfo: {
-            totalCount: Array.isArray(hotelData) ? hotelData.length : 1,
-          },
-          status: {
-            code: 1,
-            message: "SUCCESS",
-          },
-          version: "v1.0",
+      {
+        data: [hotelData],
+        metaInfo: {
+          totalCount: 1,
         },
-        { status: 200 }
+        status: {
+          code: 1,
+          message: "SUCCESS",
+        },
+        version: "v1.0",
+      },
+      { status: 200 }
     );
   } catch (error) {
     return NextResponse.json(
-        {
-          data: [],
-          metaInfo: {
-            totalCount: 0,
-          },
-          status: {
-            code: 0,
-            message: "Failed to fetch hotel view",
-          },
-          version: "v1.0",
+      {
+        data: [],
+        metaInfo: {
+          totalCount: 0,
         },
-        { status: 500 }
+        status: {
+          code: 0,
+          message: "Failed to fetch hotel view",
+        },
+        version: "v1.0",
+      },
+      { status: 500 }
     );
   }
 }

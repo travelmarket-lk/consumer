@@ -2,11 +2,42 @@
 
 import Image from "next/image";
 import { Users, Maximize2, Bed, Check, Info, ShieldCheck, ChevronRight } from "lucide-react";
-import type { RoomCardProps } from "../types/hotel-data";
+import type { RoomCardProps } from "@/features/hotel/types/hotel-props";
 
+function getDynamicCancellationDate(checkIn?: string, fallback?: string): string {
+  if (!checkIn) return fallback || "48 hours before check-in";
+  try {
+    const d = new Date(checkIn);
+    if (isNaN(d.getTime())) return fallback || "48 hours before check-in";
+    const cancelDate = new Date(d.getTime() - 2 * 24 * 60 * 60 * 1000);
+    return cancelDate.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+  } catch {
+    return fallback || "48 hours before check-in";
+  }
+}
 
-export function RoomCard({ room, selectedQuantity, onQuantityChange, onOpenDetails }: RoomCardProps) {
+export function RoomCard({
+  room,
+  selectedQuantity,
+  onQuantityChange,
+  onOpenDetails,
+  nights = 1,
+  checkInDate,
+  guestsCount,
+}: RoomCardProps) {
   const isSelected = selectedQuantity > 0;
+  const stayNights = nights > 0 ? nights : 1;
+  const totalPrice = room.pricePerNight * stayNights;
+  const totalOriginalPrice = room.originalPrice * stayNights;
+  const cancellationDeadline = getDynamicCancellationDate(checkInDate, room.inclusions.cancellationDeadline);
+
+  const adultsMatch = guestsCount?.match(/(\d+)\s*Adult/i);
+  const requestedAdults = adultsMatch ? parseInt(adultsMatch[1], 10) : 0;
+  const fitsGroup = requestedAdults > 0 && room.maxAdults >= requestedAdults;
 
   return (
     <div
@@ -44,9 +75,16 @@ export function RoomCard({ room, selectedQuantity, onQuantityChange, onOpenDetai
       <div className="flex flex-1 flex-col justify-between p-5 space-y-4">
         <div>
           <div className="flex items-start justify-between gap-2">
-            <h3 className="text-lg font-bold text-slate-900 group-hover:text-cyan-700 transition-colors">
-              {room.title}
-            </h3>
+            <div>
+              <h3 className="text-lg font-bold text-slate-900 group-hover:text-cyan-700 transition-colors">
+                {room.title}
+              </h3>
+              {fitsGroup && (
+                <span className="mt-1 inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-0.5 text-[10px] font-bold text-emerald-700 border border-emerald-200">
+                  <Check className="h-3 w-3 text-emerald-600" /> Fits your selected group ({requestedAdults} Adult{requestedAdults > 1 ? "s" : ""})
+                </span>
+              )}
+            </div>
             <button
               onClick={() => onOpenDetails(room)}
               className="text-xs font-semibold text-cyan-600 hover:text-cyan-800 underline flex items-center gap-1 flex-shrink-0"
@@ -83,7 +121,7 @@ export function RoomCard({ room, selectedQuantity, onQuantityChange, onOpenDetai
           {room.inclusions.freeCancellation && (
             <div className="flex items-center gap-1.5 text-emerald-700 font-medium">
               <Check className="h-4 w-4 text-emerald-600" />
-              <span>FREE cancellation before {room.inclusions.cancellationDeadline}</span>
+              <span>FREE cancellation before {cancellationDeadline}</span>
             </div>
           )}
           {room.inclusions.noPrepaymentNeeded && (
@@ -112,10 +150,12 @@ export function RoomCard({ room, selectedQuantity, onQuantityChange, onOpenDetai
               SAVE {Math.round(((room.originalPrice - room.pricePerNight) / room.originalPrice) * 100)}% TODAY
             </span>
             <div className="flex items-baseline justify-end gap-2">
-              <span className="text-xs text-slate-400 line-through font-medium">${room.originalPrice}</span>
-              <span className="text-2xl font-black text-slate-900">${room.pricePerNight}</span>
+              <span className="text-xs text-slate-400 line-through font-medium">${totalOriginalPrice}</span>
+              <span className="text-2xl font-black text-slate-900">${totalPrice}</span>
             </div>
-            <p className="text-[11px] text-slate-500 font-medium">per night (excl. taxes & fees)</p>
+            <p className="text-[11px] text-slate-500 font-medium">
+              {stayNights > 1 ? `total for ${stayNights} nights ($${room.pricePerNight}/night)` : "per night (excl. taxes & fees)"}
+            </p>
           </div>
         </div>
 
@@ -129,9 +169,9 @@ export function RoomCard({ room, selectedQuantity, onQuantityChange, onOpenDetai
               className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-bold text-slate-900 shadow-sm focus:border-cyan-500 focus:outline-none focus:ring-1 focus:ring-cyan-500"
             >
               <option value={0}>0 rooms</option>
-              <option value={1}>1 room (${room.pricePerNight})</option>
-              <option value={2}>2 rooms (${room.pricePerNight * 2})</option>
-              <option value={3}>3 rooms (${room.pricePerNight * 3})</option>
+              <option value={1}>1 room (${totalPrice})</option>
+              <option value={2}>2 rooms (${totalPrice * 2})</option>
+              <option value={3}>3 rooms (${totalPrice * 3})</option>
             </select>
           </div>
 
