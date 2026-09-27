@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { X, ChevronLeft, ChevronRight, Grid } from "lucide-react";
-import { GalleryModalProps } from "../types/hotel-data";
+import { GalleryModalProps } from "../types/hotel.types";
 
 
 export function HotelGalleryModal({
