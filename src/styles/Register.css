@@ -10,7 +10,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(circle at 10% 20%, #e8f5e9 0%, #f4fbf7 60%, #e0f2f1 100%);
+  background: radial-gradient(
+    circle at 10% 20%,
+    color-mix(in srgb, var(--theme-primary) 14%, var(--theme-background)) 0%,
+    var(--theme-background) 60%,
+    color-mix(in srgb, var(--theme-primary) 10%, var(--theme-background)) 100%
+  );
   padding: 40px 20px;
 }
 
@@ -18,9 +23,9 @@
   display: flex;
   width: 100%;
   max-width: 1300px;
-  background: #ffffff;
-  border-radius: 24px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+  background: var(--theme-card);
+  border-radius: var(--theme-radius-3xl);
+  box-shadow: var(--theme-shadow-modal);
   overflow: hidden;
   min-height: 640px;
 }
@@ -42,10 +47,10 @@
   position: absolute;
   inset: 0;
   background: linear-gradient(
-    90deg, 
-    rgba(15, 23, 42, 0.75) 0%, 
-    rgba(15, 23, 42, 0.4) 60%, 
-    rgba(255, 255, 255, 0.95) 100%
+    90deg,
+    rgba(15, 23, 42, 0.75) 0%,
+    rgba(15, 23, 42, 0.4) 60%,
+    color-mix(in srgb, var(--theme-card) 95%, transparent) 100%
   );
   z-index: 1;
 }
@@ -74,14 +79,14 @@
 .brand-icon svg {
   width: 26px;
   height: 26px;
-  color: #34d399;
+  color: color-mix(in srgb, var(--theme-primary) 65%, white);
 }
 
 .welcome-text .small-title {
   font-size: 11px;
   letter-spacing: 1.5px;
   font-weight: 700;
-  color: #34d399;
+  color: color-mix(in srgb, var(--theme-primary) 55%, white);
   display: block;
   margin-bottom: 12px;
 }
@@ -95,12 +100,12 @@
 }
 
 .welcome-text h2 span {
-  color: #34d399;
+  color: color-mix(in srgb, var(--theme-primary) 65%, white);
 }
 
 .welcome-text p {
   font-size: 13px;
-  color: #cbd5e1;
+  color: rgba(255, 255, 255, 0.8);
   max-width: 320px;
   line-height: 1.6;
 }
@@ -108,7 +113,7 @@
 .register-right {
   flex: 1.2;
   padding: 48px 56px;
-  background: #ffffff;
+  background: var(--theme-card);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -118,19 +123,19 @@
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 1.5px;
-  color: #2e7d32;
+  color: var(--theme-primary);
 }
 
 .form-header h1 {
   font-size: 28px;
   font-weight: 800;
-  color: #0f172a;
+  color: var(--theme-foreground);
   margin: 6px 0 8px 0;
 }
 
 .form-header p {
   font-size: 13px;
-  color: #64748b;
+  color: var(--theme-muted-foreground);
   margin-bottom: 24px;
 }
 
@@ -141,13 +146,13 @@
 .form-group label {
   font-size: 12px;
   font-weight: 600;
-  color: #334155;
+  color: var(--theme-foreground);
   display: block;
   margin-bottom: 6px;
 }
 
 .form-group label b {
-  color: #ef4444;
+  color: var(--theme-danger);
 }
 
 .form-row {
@@ -159,22 +164,22 @@
 .input-wrapper {
   display: flex;
   align-items: center;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
+  background: var(--theme-input-background);
+  border: 1px solid var(--theme-input-border);
   border-radius: 10px;
   padding: 10px 14px;
   transition: all 0.2s ease;
 }
 
 .input-wrapper:focus-within {
-  border-color: #2e7d32;
-  background: #ffffff;
-  box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+  border-color: var(--theme-primary);
+  background: var(--theme-input-background);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--theme-primary) 10%, transparent);
 }
 
 .input-wrapper.input-error {
-  border-color: #ef4444;
-  background: #fef2f2;
+  border-color: var(--theme-danger);
+  background: var(--theme-danger-soft);
 }
 
 .input-icon {
@@ -186,7 +191,7 @@
 .input-icon svg {
   width: 18px;
   height: 18px;
-  color: #94a3b8;
+  color: var(--theme-subtle-foreground);
 }
 
 .input-wrapper input {
@@ -195,11 +200,11 @@
   outline: none;
   width: 100%;
   font-size: 13px;
-  color: #0f172a;
+  color: var(--theme-input-foreground);
 }
 
 .input-wrapper input::placeholder {
-  color: #94a3b8;
+  color: var(--theme-input-placeholder);
 }
 
 .password-toggle {
@@ -209,7 +214,7 @@
   padding: 0;
   display: flex;
   align-items: center;
-  color: #94a3b8;
+  color: var(--theme-subtle-foreground);
 }
 
 .password-toggle svg {
@@ -219,7 +224,7 @@
 
 .error-message {
   font-size: 11px;
-  color: #ef4444;
+  color: var(--theme-danger);
   margin-top: 4px;
   display: block;
 }
@@ -236,7 +241,7 @@
   align-items: center;
   gap: 8px;
   font-size: 12px;
-  color: #64748b;
+  color: var(--theme-muted-foreground);
   cursor: pointer;
 }
 
@@ -247,24 +252,24 @@
 .custom-checkbox {
   width: 18px;
   height: 18px;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--theme-border-strong);
   border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #ffffff;
+  background: var(--theme-input-background);
 }
 
 .custom-checkbox svg {
   width: 12px;
   height: 12px;
-  color: #ffffff;
+  color: var(--theme-primary-foreground);
   display: none;
 }
 
 .terms input:checked + .custom-checkbox {
-  background: #2e7d32;
-  border-color: #2e7d32;
+  background: var(--theme-primary);
+  border-color: var(--theme-primary);
 }
 
 .terms input:checked + .custom-checkbox svg {
@@ -272,14 +277,14 @@
 }
 
 .terms a {
-  color: #2e7d32;
+  color: var(--theme-primary);
   font-weight: 700;
   text-decoration: none;
 }
 
 .create-button {
-  background: #2e7d32;
-  color: #ffffff;
+  background: var(--theme-primary);
+  color: var(--theme-primary-foreground);
   padding: 12px 24px;
   border: none;
   border-radius: 10px;
@@ -293,7 +298,7 @@
 }
 
 .create-button:hover {
-  background: #1b5e20;
+  background: var(--theme-primary-hover);
 }
 
 .create-button svg {
@@ -304,12 +309,12 @@
 .login-text {
   text-align: center;
   font-size: 12px;
-  color: #64748b;
+  color: var(--theme-muted-foreground);
   margin-top: 20px;
 }
 
 .login-text a {
-  color: #2e7d32;
+  color: var(--theme-primary);
   font-weight: 700;
   text-decoration: none;
 }
