@@ -1,0 +1,24 @@
+"use client";
+
+import type { FormEvent } from "react";
+import { Calendar, ChevronDown, MapPin, Search, Sparkles, Users } from "lucide-react";
+
+type SearchFormProps = {
+  destination: string; onDestinationChange: (value: string) => void; checkIn: string; onCheckInChange: (value: string) => void;
+  checkOut: string; onCheckOutChange: (value: string) => void; adults: number; childrenCount: number; rooms: number;
+  onGuestPresetChange: (value: string) => void;
+  onSubmit: (event: FormEvent<HTMLFormElement>) => void;
+};
+
+export function SearchForm({ destination, onDestinationChange, checkIn, onCheckInChange, checkOut, onCheckOutChange, adults, childrenCount, rooms, onGuestPresetChange, onSubmit }: SearchFormProps) {
+  return <form onSubmit={onSubmit} className="relative z-20 mt-8 mb-4 rounded-[2rem] border border-slate-700/50 bg-slate-900/90 p-2 text-white shadow-2xl shadow-slate-900/40 backdrop-blur-xl">
+    <div className="pointer-events-none absolute -inset-0.5 rounded-[2rem] bg-gradient-to-r from-cyan-500 to-blue-600 opacity-20 blur-lg" />
+    <div className="relative flex flex-col overflow-hidden rounded-3xl bg-slate-900 divide-y divide-slate-800 lg:flex-row lg:items-stretch lg:divide-x lg:divide-y-0">
+      <label className="group relative flex flex-1 cursor-text flex-col justify-center px-6 py-4 transition-colors hover:bg-slate-800/50"><span className="mb-1 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-slate-400"><MapPin className="h-3.5 w-3.5 text-cyan-400 transition-colors group-hover:text-cyan-300" />Select Property</span><div className="relative"><input value={destination} onChange={(event) => onDestinationChange(event.target.value)} className="w-full bg-transparent pr-6 text-sm font-bold text-white outline-none sm:text-base" /><ChevronDown className="pointer-events-none absolute right-0 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" /></div></label>
+      <label className="group relative flex flex-1 cursor-pointer flex-col justify-center px-6 py-4 transition-colors hover:bg-slate-800/50"><span className="mb-1 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-slate-400"><Calendar className="h-3.5 w-3.5 text-cyan-400 transition-colors group-hover:text-cyan-300" />Check-in</span><input type="date" value={checkIn} onChange={(event) => onCheckInChange(event.target.value)} className="w-full cursor-pointer bg-transparent text-sm font-bold text-white outline-none sm:text-base [&::-webkit-calendar-picker-indicator]:invert [&::-webkit-calendar-picker-indicator]:opacity-50" /></label>
+      <label className="group relative flex flex-1 cursor-pointer flex-col justify-center px-6 py-4 transition-colors hover:bg-slate-800/50"><span className="mb-1 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-slate-400"><Calendar className="h-3.5 w-3.5 text-cyan-400 transition-colors group-hover:text-cyan-300" />Check-out</span><input type="date" value={checkOut} min={checkIn} onChange={(event) => onCheckOutChange(event.target.value)} className="w-full cursor-pointer bg-transparent text-sm font-bold text-white outline-none sm:text-base [&::-webkit-calendar-picker-indicator]:invert [&::-webkit-calendar-picker-indicator]:opacity-50" /></label>
+      <label className="group relative flex flex-1 cursor-pointer flex-col justify-center px-6 py-4 transition-colors hover:bg-slate-800/50"><span className="mb-1 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-slate-400"><Users className="h-3.5 w-3.5 text-cyan-400 transition-colors group-hover:text-cyan-300" />Guests &amp; Rooms</span><select value={`${adults},${childrenCount},${rooms}`} onChange={(event) => onGuestPresetChange(event.target.value)} className="w-full cursor-pointer appearance-none bg-transparent pr-6 text-sm font-bold text-white outline-none sm:text-base"><option value="1,0,1" className="bg-slate-800 text-white">1 Adult, 1 Room</option><option value="2,0,1" className="bg-slate-800 text-white">2 Adults, 1 Room</option><option value="2,1,1" className="bg-slate-800 text-white">2 Adults + 1 Child, 1 Room</option><option value="4,2,2" className="bg-slate-800 text-white">4 Adults + 2 Children, 2 Rooms</option></select><ChevronDown className="pointer-events-none absolute right-6 bottom-5 h-4 w-4 text-slate-400" /></label>
+      <div className="flex items-center justify-center bg-slate-900 p-2 lg:p-3"><button type="submit" className="flex h-full min-h-12 w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 px-8 py-3 text-sm font-black text-white shadow-lg shadow-cyan-600/30 transition-all hover:scale-[1.02] hover:shadow-cyan-600/50 lg:w-auto"><Sparkles className="h-4 w-4" /><span>View Rates</span><Search className="hidden h-4 w-4" /></button></div>
+    </div>
+  </form>;
+}
