@@ -139,21 +139,13 @@ export default function RegisterPage() {
             className="left-content"
             variants={leftContentVariants}
           >
-            <motion.div 
-              className="brand-icon"
-              whileHover={{ scale: 1.1, rotate: 5 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-                <path d="M4 21h16" />
-                <path d="M6 21V5l6-2 6 2v16" />
-                <path d="M9 8h1" />
-                <path d="M14 8h1" />
-                <path d="M9 12h1" />
-                <path d="M14 12h1" />
-                <path d="M10 21v-5h4v5" />
-              </svg>
-            </motion.div>
+          <motion.div 
+            className="brand-icon"
+            whileHover={{ scale: 1.1, rotate: 5 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
+            <img src="/assets/logo.png" alt="TravelMarket" />
+          </motion.div>
 
             <div className="welcome-text">
               <span className="small-title">WELCOME TO YOUR NEXT STAY</span>
